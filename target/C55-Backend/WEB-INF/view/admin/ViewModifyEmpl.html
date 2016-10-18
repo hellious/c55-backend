@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Aspire Bank</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="../css/simple-sidebar.css" rel="stylesheet">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script type="text/javascript">
+        
+         function readfile(file)
+         {
+
+          var rawFile = new XMLHttpRequest();
+          rawFile.open("GET", "empdetails.json", true);
+          rawFile.onreadystatechange = function ()
+          {
+            if(rawFile.readyState === 4)
+            {
+              if(rawFile.status === 200 || rawFile.status == 0)
+              {
+                var allText = rawFile.responseText;
+                 formData  =  JSON.parse(allText);
+                setData(formData);
+            }
+
+          }
+          rawFile.send(null);
+        }
+         }
+          function setData(data)
+          {
+        	  var data=formData;
+        	  document.getElementById("empID").value= data["e_id"];
+              document.getElementById("firstname").value= data["f_name"];
+             document.getElementById("lastname").value= data["l_name"];
+            var role= data["access_level"];
+            var $radios = $('input:radio[name=role]');
+            if($radios.is(':checked') === false) {
+                $radios.filter('[value=manager]').prop('checked', true);
+             
+             }
+        	  
+          }
+         
+function editprofile()
+            {
+
+                //alert(document.getElementById("fromself").value + " " + document.getElementById("toself").value + " " + document.getElementById("transferamount").value);
+                //alert(data[][document.getElementById("fromself").value])
+                //if(document.getElementById("transferamount").value > )
+
+                var postdata = 
+                {
+                		
+                    "f_name":document.getElementById("firstname").value,
+                    "l_name":document.getElementById("lastname").value,
+                    "username":document.getElementById("username").value,
+                    "email":document.getElementById("email").value,
+                    "access_level":document.getElementById("role").value,
+                   
+                }
+                var dataString = JSON.stringify(postdata);
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "backend.jsp",
+                    data: {myData:dataString},
+                    contentType: "application/json; charset=utf-8",
+                    success: function(data){
+                        alert('transacion successfull');
+                    },
+                    error: function(e){
+                        console.log(e.message);
+                    }
+                });
+
+            }
+
+          window.onload=readfile;
+
+        </script>
+
+
+      </head>
+
+      <body>
+
+        <div id="wrapper">
+
+       <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                       
+                </li>
+                <li>
+                   <a href="./RoleAddition.html"> Create New Internal User</a>
+                </li>
+                <li>
+                    <a href="./ViewAllEmployees.html">View All Internal User</a>
+                </li>
+                
+                <li>
+                    <a href="./AccessLog.html">Access Logs</a>
+                </li>
+               <li>
+                    <a href="./PII.html">PII</a>
+                </li>
+                <li>
+                    <a href="#">Logout</a>
+                </li>
+                
+            </ul>
+        </div>
+            
+            <!-- Page Content -->
+            <div class="container-fluid">
+                <ul class="nav nav-tabs nav-justified" role="tablist">
+					<li><a data-toggle="tab" href="#employee">View Employee</a></li>
+					
+                    
+                   
+                </ul>
+                
+                    
+                    
+                <!-- ###################################### Nameab-->
+                    <div id="changeName" class="tab-pane fade in active">
+                        <div class="container">
+                          <h1>Edit Details</h1>
+                          <hr>
+                          <div class="row">
+                            <!-- left column -->
+
+
+                            <!-- edit form column -->
+                            <div class="col-md-12 personal-info">
+                              <div class="alert alert-info alert-dismissable">
+                                <a class="panel-close close" data-dismiss="alert">×</a> 
+                                <i class="fa fa-coffee"></i>
+                                This is an <strong>.alert</strong>. Use this to show important messages to the user.
+                              </div>
+
+                              <form class="form-horizontal" role="form" action="" method="POST">
+                                
+                                 <div class="form-group">
+                                  <label class="col-lg-3 control-label">Employee ID:</label>
+                                  <div class="col-lg-8">
+                                    <label class="col-lg-3 control-label" id="e_id"> </label>
+                                  </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                  <label class="col-lg-3 control-label">First name:</label>
+                                  <div class="col-lg-8">
+                                    <input class="form-control" id="firstname" type="text">
+                                  </div>
+                                </div>
+
+                                <div class="form-group">
+                                  <label class="col-lg-3 control-label">Last name:</label>
+                                  <div class="col-lg-8">
+                                    <input class="form-control" id="lastname"  type="text">
+                                  </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                  <label class="col-lg-3 control-label">Password</label>
+                                  <div class="col-lg-8">
+                                    <input class="form-control" id="password"  type="text">
+                                  </div>
+                                </div>
+                                
+                                
+                                <div class="form-group">
+                                <label class="col-lg-3 control-label">Role</label>
+				<div class="radio-inline">
+					<label><input type="radio" name="role" value="regular">Regular Employee.</label>
+				</div>
+				
+				<div class="radio-inline">
+					<label><input type="radio" name="role" value="manager">Manager</label>
+				</div>
+				
+				
+				</div>
+
+
+                            <div class="form-group">
+                              <label class="col-md-3 control-label"></label>
+                              <div class="col-md-8">
+
+                                <input class="btn btn-primary" value="Update Changes" type="button">
+                                <span></span>
+                                <input class="btn btn-default" value="Cancel" onclick="readfile()" type="button">
+
+                                    </div>
+                                </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- ######################################-->    
+                
+
+    </div><!--end of tabbed content-->
+</div>
+            
+            
+ 
+
+
+        </div>
+        <!-- /#wrapper -->
+
+        <!-- jQuery -->
+        <script src="../js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../js/bootstrap.min.js"></script>
+
+        <!-- Menu Toggle Script -->
+        <script>
+          $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+          });
+        </script>
+
+      </body>
+
+      </html>
